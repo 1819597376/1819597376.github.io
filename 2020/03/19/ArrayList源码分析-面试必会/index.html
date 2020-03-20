@@ -8,15 +8,19 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>TroubleQ</title>
+<title>ArrayList源码分析-面试必会 - TroubleQ</title>
 
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="TroubleQ">
-<meta property="og:url" content="http://yoursite.com/index.html">
+    <meta name="description" content="今天来说一说JAVA中我们比较熟悉的  ArrayList  ，据说在面试中要你手写ArrayList都是有可能的，所以我i这两天读了ArrayList的源码，参考了一些资料，来把我的理解分享一下。 ArrayList 的特点 ArrayList底层是基于Object[] 数组来实现的， 是一个动态扩展数组 ，Object数组默认容量是10，当长度不够时会自动将容量扩展到其原来的1.5倍。自动增长">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ArrayList源码分析-面试必会">
+<meta property="og:url" content="http://yoursite.com/2020/03/19/ArrayList%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E9%9D%A2%E8%AF%95%E5%BF%85%E4%BC%9A/index.html">
 <meta property="og:site_name" content="TroubleQ">
+<meta property="og:description" content="今天来说一说JAVA中我们比较熟悉的  ArrayList  ，据说在面试中要你手写ArrayList都是有可能的，所以我i这两天读了ArrayList的源码，参考了一些资料，来把我的理解分享一下。 ArrayList 的特点 ArrayList底层是基于Object[] 数组来实现的， 是一个动态扩展数组 ，Object数组默认容量是10，当长度不够时会自动将容量扩展到其原来的1.5倍。自动增长">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
+<meta property="article:published_time" content="2020-03-19T01:22:39.000Z">
+<meta property="article:modified_time" content="2020-03-19T16:08:07.372Z">
 <meta property="article:author" content="TroubleQ">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
@@ -77,7 +81,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo1.jpg" alt="TroubleQ" height="28">
+                <img src="/images/logo1.jpg" alt="ArrayList源码分析-面试必会" height="28">
             
             </a>
         </div>
@@ -85,7 +89,7 @@
             
             <div class="navbar-start">
                 
-                <a class="navbar-item is-active"
+                <a class="navbar-item"
                 href="/">主页</a>
                 
                 <a class="navbar-item"
@@ -127,7 +131,6 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
-    
 <div class="card">
     
     <div class="card-content article ">
@@ -149,7 +152,7 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2020/03/19/ArrayList%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E9%9D%A2%E8%AF%95%E5%BF%85%E4%BC%9A/">ArrayList源码分析-面试必会</a>
+                ArrayList源码分析-面试必会
             
         </h1>
         <div class="content">
@@ -310,656 +313,63 @@
 
 
 
-
-
-
-
-
-    
 <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-03-16T12:18:54.000Z">2020-03-16</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    6 minutes read (About 928 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">Like this article? Support the author with</h3>
+        <div class="buttons is-centered">
             
-                <a class="has-link-black-ter" href="/2020/03/16/String%E3%80%81StringBuffer%E5%92%8CStringBuilder%E7%9A%84%E5%8C%BA%E5%88%AB/">String、StringBuffer和StringBuilder的区别</a>
-            
-        </h1>
-        <div class="content">
-            <p><strong>今天很大家来聊一下这个基础的问题</strong></p>
-<p><strong>说他们三者之间的区别我总结为一下三点：</strong></p>
-<h4 id="1-String长度不可变而StringBuffer和SringBuilder长度可变"><a href="#1-String长度不可变而StringBuffer和SringBuilder长度可变" class="headerlink" title="1.String长度不可变而StringBuffer和SringBuilder长度可变"></a>1.String长度不可变而StringBuffer和SringBuilder长度可变</h4><h4 id="2-他们的运行速度不同-：SringBuilder-gt-StringBuffer-gt-String"><a href="#2-他们的运行速度不同-：SringBuilder-gt-StringBuffer-gt-String" class="headerlink" title="2.他们的运行速度不同  ：SringBuilder  &gt;  StringBuffer   &gt;   String"></a>2.他们的运行速度不同  ：SringBuilder  &gt;  StringBuffer   &gt;   String</h4><h4 id="3-SringBuilder-线程不安全-和-StringBuffer线程安全"><a href="#3-SringBuilder-线程不安全-和-StringBuffer线程安全" class="headerlink" title="3.SringBuilder 线程不安全  和 StringBuffer线程安全"></a>3.SringBuilder <strong>线程不安全</strong>  和 StringBuffer线程安全</h4><p>下面我来一个一个解释：</p>
-<h3 id="一-String长度不可变而StringBuffer和SringBuilder长度可变"><a href="#一-String长度不可变而StringBuffer和SringBuilder长度可变" class="headerlink" title="一.String长度不可变而StringBuffer和SringBuilder长度可变"></a>一.String长度不可变而StringBuffer和SringBuilder长度可变</h3><p>废话不多说，先上源码！</p>
-<p>如果你可以打开三个类的源码看一下你就明白了</p>
-<img src="/2020/03/16/String%E3%80%81StringBuffer%E5%92%8CStringBuilder%E7%9A%84%E5%8C%BA%E5%88%AB/String.png" class title="This is an example image">
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>Alipay</span>
+    <div class="qrcode"><img src="/images/zhifubao.jpg" alt="Alipay"></div>
+</a>
 
-<img src="/2020/03/16/String%E3%80%81StringBuffer%E5%92%8CStringBuilder%E7%9A%84%E5%8C%BA%E5%88%AB/StringBuffer.png" class title="This is an example image">
+                
+                
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>Wechat</span>
+    <div class="qrcode"><img src="/images/weixin.png" alt="Wechat"></div>
+</a>
 
-<img src="/2020/03/16/String%E3%80%81StringBuffer%E5%92%8CStringBuilder%E7%9A%84%E5%8C%BA%E5%88%AB/StringBuilder.png" class title="This is an example image">
+                
+                <!-- Visit https://www.paypal.com/donate/buttons/ to get your donate button -->
 
-<img src="/2020/03/16/String%E3%80%81StringBuffer%E5%92%8CStringBuilder%E7%9A%84%E5%8C%BA%E5%88%AB/AbstractStringBuilder.png" class title="This is an example image">
+<div class="notification is-danger">
+    You forgot to set the <code>business</code> and <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.
+</div>
 
-<p>我们能看到，String这个类底层使用了final修饰的长度不可变的字符数组，所以它长度不可变</p>
-<blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">char</span> value[];</span><br></pre></td></tr></table></figure>
-</blockquote>
-<p>而StringBuffer和StringBuilder 都继承自AbstractStringBuilder  ，且AbstractStringBuilder底层使用的是可变字符数组，所以二者长度可变。</p>
-<blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span>[] value;</span><br></pre></td></tr></table></figure>
-</blockquote>
-<h3 id="二-他们的运行速度不同-：SringBuilder-gt-StringBuffer-gt-String"><a href="#二-他们的运行速度不同-：SringBuilder-gt-StringBuffer-gt-String" class="headerlink" title="二.他们的运行速度不同  ：SringBuilder  &gt;  StringBuffer   &gt;   String"></a>二.他们的运行速度不同  ：SringBuilder  &gt;  StringBuffer   &gt;   String</h3><p>先来看这样一段代码</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        String  str = <span class="string">"abc"</span>;</span><br><span class="line">        System.out.println(str);</span><br><span class="line">        str = str + <span class="string">"cd"</span>;</span><br><span class="line">        System.out.println(str);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+                
+                
+<div class="notification is-danger">
+    You forgot to set the <code>url</code> Patreon. Please set it in <code>_config.yml</code>.
+</div>
 
-<blockquote>
-<p>输出结果为：</p>
-<p>abc</p>
-<p>abcd</p>
-</blockquote>
-<p>​        整个程序运行完我们看似是str这个对象被更改了，在后面加上了一段新的字符，但这只是假象，因为我们刚才说过String类型的字符串长度是不可变的啊，其实JVM是先创建的了一个str对象，将“abc”赋值给str，然后在内存中又创建了第二个str对象，将第一个str对象中的“abc”与”de“相加再赋值给第二个str对象，此时Java虚拟机的垃圾回收机制开始其工作将第一个str对象回收。所以说String类型的字符串要完成这样”改变长度“的操作需要不断地创建再回收，创建再回收，无形中经过了很多步骤，而 StringBuffer和SringBuilder数组可变，直接可进行更改，所以要更快。</p>
-<p><strong>而SringBuilder  为什么比   StringBuffer   要快呢？</strong></p>
-<p>先来看源码：</p>
-<img src="/2020/03/16/String%E3%80%81StringBuffer%E5%92%8CStringBuilder%E7%9A%84%E5%8C%BA%E5%88%AB/BuilderAppend.png" class title="This is an example image">
-
-<img src="/2020/03/16/String%E3%80%81StringBuffer%E5%92%8CStringBuilder%E7%9A%84%E5%8C%BA%E5%88%AB/BufferAppend.png" class title="This is an example image">
-
-
-<p>​        从图中可以看出<strong>StringBuffer的append的方法都被toStringCache关键字修饰了</strong>（不止图中这两个append方法包括StringBuffer源码中所有append重载方法都被toStringCache修饰了。）</p>
-<p><strong>toStringCache关键字是给线程加锁，枷锁是会带来性能上的损耗的，故用SringBuilder  比   StringBuffer 要快</strong></p>
-<p>锁不懂先没关系，往下看！暂且理解为什么快。</p>
-<h3 id="三-SringBuilder-线程不安全-和-StringBuffer线程安全"><a href="#三-SringBuilder-线程不安全-和-StringBuffer线程安全" class="headerlink" title="三.SringBuilder 线程不安全  和 StringBuffer线程安全"></a>三.SringBuilder <strong>线程不安全</strong>  和 StringBuffer线程安全</h3><p>​        线程安全不同的问题要和刚才的的思路连起来，正是因为有了toStringCache关键字修饰StringBuffer的append方法有，给线程加了锁加了锁所以线程安全。</p>
-<p>​        这样理解，<strong>如果一个StringBuffer对象的字符串在字符串缓冲区被多个线程同时使用时，也就是多个线程同时操作，这样会有出现错误操作的概率，为了保证线程的安全性，进行加锁，这样会使同一时间只有一个线程获得权限，其他线程必须等待该线程结束并释放锁才能获得权限，</strong>这样线程非常安全，虽然效率慢了点，但是当项目安全性要求很高时就必须用StringBuffer。单一线程下还是的用更快一点的SringBuilder  。</p>
-
+                
         </div>
-        
-        
-        
     </div>
 </div>
 
 
 
-
-
-
-
-
-    
-<div class="card">
-    
-    <div class="card-content article ">
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
         
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-03-15T06:38:27.000Z">2020-03-15</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    3 minutes read (About 398 words)
-                </span>
-                
-                
-            </div>
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/03/16/String%E3%80%81StringBuffer%E5%92%8CStringBuilder%E7%9A%84%E5%8C%BA%E5%88%AB/">
+                <span class="level-item">String、StringBuffer和StringBuilder的区别</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
         </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2020/03/15/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%89%B9%E5%BE%81/">Java面向对象的特征</a>
-            
-        </h1>
-        <div class="content">
-            <p><strong>面试官：Java面向对象的特征是社什么？</strong></p>
-<p> <strong>你：封装、继承、抽象、多态</strong></p>
-<p><strong>面试官：。。。</strong></p>
-<p>这个回答好像大家都能说出来，多说点，用你自己的理解说出来：</p>
-<h2 id="1-封装"><a href="#1-封装" class="headerlink" title="1.封装"></a>1.封装</h2><p>封装就是把客观事物进行抽象封装，隐藏一些可隐藏的东西，指向外界提供一个最简单的的接口。</p>
-<p>把描述对象的属性和行为封装在一个模块中，也就是一个类中，属性用变量定义，行为用方法定义，方法可以直接访问同一个对象之间的属性。</p>
-<h2 id="2-抽象"><a href="#2-抽象" class="headerlink" title="2.抽象"></a>2.抽象</h2><p>把现实生活中的对象抽象为类，分过程抽象的数据抽象</p>
-<ul>
-<li>数据抽象   ： 鸟有翅膀、羽毛等（类的属性）</li>
-<li>过程抽象   ：  鸟会飞（类的方法）</li>
-</ul>
-<h2 id="3-继承"><a href="#3-继承" class="headerlink" title="3.继承"></a>3.继承</h2><p>子类继承父类的特征和行为，也就是属和方法，并且可以重写父类的方法，也可以自己进行扩展，新增加属性</p>
-<p>和方法。</p>
-<p>举例：水果（父类）    苹果（子类）   香蕉（子类）</p>
-<h2 id="4-多态"><a href="#4-多态" class="headerlink" title="4.多态"></a>4.多态</h2><p>多态是指允许不同子类型的对象对同一消息做出不同的响应，</p>
-<p><strong>系统可依据对象所属类别，引发对应类别的方法，而有不同的行为</strong></p>
-<p>优点：可以使程序有良好的扩展，并可以对所有类的对象进行通用处理。</p>
-
-        </div>
-        
-        
         
     </div>
 </div>
-
-
-
-
-
-
-
-
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-03-14T10:45:47.000Z">2020-03-14</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    a minute read (About 128 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2020/03/14/java%E7%9A%848%E7%A7%8D%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">java的8种数据类型</a>
-            
-        </h1>
-        <div class="content">
-            <h2 id="java数据类型一共有四类八种："><a href="#java数据类型一共有四类八种：" class="headerlink" title="java数据类型一共有四类八种："></a>java数据类型一共有四类八种：</h2><table>
-<thead>
-<tr>
-<th>序号</th>
-<th>大类</th>
-<th>数据类型</th>
-<th>字节/位数</th>
-<th align="center">默认值</th>
-<th>取值范围</th>
-<th>举例说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>整型</td>
-<td>byte（位）</td>
-<td>1/8</td>
-<td align="center">0</td>
-<td>-2^7 -  2^7-1(-128-127)</td>
-<td>byte  b = 100；</td>
-</tr>
-<tr>
-<td>2</td>
-<td>整型</td>
-<td>short（短整型）</td>
-<td>2/16</td>
-<td align="center">0</td>
-<td>-2^15  -  2^15-1(-32768-32767）</td>
-<td>short  s=100；</td>
-</tr>
-<tr>
-<td>3</td>
-<td>整型</td>
-<td>int（整数）</td>
-<td>4/32</td>
-<td align="center">0</td>
-<td>-2^31  -  2^31-1</td>
-<td>int i = 100</td>
-</tr>
-<tr>
-<td>4</td>
-<td>整型</td>
-<td>long（长整型）</td>
-<td>8/64</td>
-<td align="center">0</td>
-<td>-2^63 - 2 ^63-1</td>
-<td>long  l = 100l；</td>
-</tr>
-<tr>
-<td>5</td>
-<td>浮点型</td>
-<td>float（单精度）</td>
-<td>4/32</td>
-<td align="center">0.0</td>
-<td>-2^31  -  2^31-1</td>
-<td>float  f  = 100.0f</td>
-</tr>
-<tr>
-<td>6</td>
-<td>浮点型</td>
-<td>double（双精度）</td>
-<td>8/64</td>
-<td align="center">0.0</td>
-<td>-2^63-2^63-1</td>
-<td>double d = 100.0d;</td>
-</tr>
-<tr>
-<td>7</td>
-<td>字符型</td>
-<td>char（字符）</td>
-<td>16</td>
-<td align="center"></td>
-<td>0-2^16-1</td>
-<td>char = ‘c ‘;</td>
-</tr>
-<tr>
-<td>8</td>
-<td>布尔型</td>
-<td>boolean（布尔值）</td>
-<td>8</td>
-<td align="center">false</td>
-<td>true 、false</td>
-<td>boolean =   true；</td>
-</tr>
-</tbody></table>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-03-14T10:18:38.000Z">2020-03-14</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    a minute read (About 176 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2020/03/14/%E7%AE%80%E5%8D%95%E8%AF%B4%E4%B8%80%E4%B8%8B%E8%B7%A8%E5%B9%B3%E5%8F%B0/">简单说一下java跨平台</a>
-            
-        </h1>
-        <div class="content">
-            <p>​        <strong>简单理解</strong>：跨平台故名思意，其不受各种平台的限制，在多种平台上都能运行，及不依赖于操作系统有不依赖于硬件环境，一种操作系统下开发的应用到另一种操作系统下任可以运行；</p>
-<p>​        <strong>面试时应该这么说</strong>：</p>
-<p>注意抓住关键两点术语：<strong>操作系统指令集、屏蔽系统之间的差异</strong></p>
-<p>​        由于各种操作系统之间的<strong>指令集不完全相同</strong>，所以在操作系统之上加个虚拟机可以来<strong>提供统一的接口</strong>，<strong>屏蔽系统之间的差异。</strong></p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-03-13T14:52:52.000Z">2020-03-13</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    2 minutes read (About 325 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2020/03/13/%E4%B8%80%E4%B8%AA%E2%80%9C-java%E2%80%9D%E6%96%87%E4%BB%B6%E4%B8%AD%E6%98%AF%E5%90%A6%E5%8F%AF%E4%BB%A5%E5%8C%85%E5%90%AB%E5%A4%9A%E4%B8%AA%E7%B1%BB%EF%BC%88%E8%BF%99%E9%87%8C%E4%B8%8D%E5%86%85%E9%83%A8%E7%B1%BB%E4%B8%8D%E7%AE%97%EF%BC%89%EF%BC%8C%E6%9C%89%E4%BB%80%E4%B9%88%E9%99%90%E5%88%B6%EF%BC%9F/">一个“.java”文件中是否可以包含多个类（这里不内部类不算），有什么限制？</a>
-            
-        </h1>
-        <div class="content">
-            <h2 id="一个“-java”文件中是否可以包含多个类（这里不内部类不算），有什么限制？"><a href="#一个“-java”文件中是否可以包含多个类（这里不内部类不算），有什么限制？" class="headerlink" title="一个“.java”文件中是否可以包含多个类（这里不内部类不算），有什么限制？"></a>一个“.java”文件中是否可以包含多个类（这里不内部类不算），有什么限制？</h2><p>*<em>答案：可以包含多个类，但是只能由一个public类 *</em></p>
-<p>​     java文件中完全可以有多个类，我指的是即使不算内部类这一说，也可以定义有多个类，但是有一点限制就是一个“.java”文件中只能有一个被public修饰的公共类，仅有一个，这样设计的意义是基于面向对象思想的基础上，我们能保证一个类只有一个公开接口。一个“.java”文件也就是一个Java程序被称为一个编译单元，如果文件中有多个public权限的类则编译器将不知道从哪里进入，因而报错。</p>
-<p>​    那么其他非public类有什么用吗其实我们的public类就像是一个团队的老大且实门面担当，而其他类就是在他背后默默付出却不被人所知的小弟们，意思是，内部类在包外是不能被看见的（不能被调用），他的作用就是为public类提供支持。</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-03-10T15:34:11.000Z">2020-03-10</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    17 minutes read (About 2599 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/">超级详细Hexo+GitHub+阿里云域名的博客搭建教程</a>
-            
-        </h1>
-        <div class="content">
-            <p>​           摸索了挺长时间建网站建博客等东西，最初我是从买阿里云服务器和域名开始了解这些的，也用宝塔搭过网站，觉得这些东西还挺有意思的，最开始我用过宝塔的一键部署wordpress博客，感觉挺爽，拥有的自己的博客，但直到我知道有Hexo这种静态博客框架后我才明白这才是真正的搭建博客。</p>
-<p>​    下面就来让我分享一下我这一段时间摸索出来的皮毛经验——关于搭建Hexo静态博客</p>
-<p>​     跟着我一步一步来做，你马上就有自己的博客啦！ 开始</p>
-<h2 id="一，首先安装前提软件环境-node-js-和-Git"><a href="#一，首先安装前提软件环境-node-js-和-Git" class="headerlink" title="一，首先安装前提软件环境   node.js  和 Git"></a>一，首先安装前提软件环境   node.js  和 Git</h2><img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/yyyyyqqqq.png" class title="This is an example image">
-<p>​      <strong>安装软件比较简单，正常安装就行，我就不多赘述，下面是安装地址，不懂得可以看看别的博主的的教程。</strong></p>
-<p>​        node.j安装地址: <a href="https://nodejs.org/zh-cn/">https://nodejs.org/zh-cn/</a>  </p>
-<p>​         node.js安装教程:<a href="https://blog.csdn.net/qq_42543312/article/details/82191357">https://blog.csdn.net/qq_42543312/article/details/82191357</a></p>
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image7.png" class title="This is an example image">
-
-<p>​           Git安装地址:<a href="https://git-scm.com/">https://git-scm.com/</a>  </p>
-<p>Git安装教程:<a href="https://www.cnblogs.com/xueweisuoyong/archive/2019/11/22/11914045.html">https://www.cnblogs.com/xueweisuoyong/archive/2019/11/22/11914045.html</a> </p>
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image2.png" class title="This is an example image">
-
-<p>​            安装完成我们可以在桌面右键，点击Git Bash Here  ，分别输入以下命令，如果出现对应版本的信息，证明我们的node.js和Git安装正常可用，另外说一下 <strong>其实npm是nodejs的包管理器（package manager）</strong>，能解决node.js代码部署上的很多问题,我们在安装时用到的都是npm命令。npm -v证明我们的包管理器也安装成功。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git version</span><br><span class="line">node -v</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
-
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/%E9%98%BF%E6%96%AF%E9%A1%BF%E5%8F%91%E5%A4%A7%E6%B0%B4.png" class title="This is an example image">
-
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image39.png" class title="This is an example image">
-
-<h2 id="二，安装Hexo"><a href="#二，安装Hexo" class="headerlink" title="二，安装Hexo"></a>二，安装Hexo</h2><p>以上步骤成功后就可以进行Hexo的安装了，用npm 安装 Hexo，输入以下命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></table></figure>
-
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image6.png" class title="This is an example image">
-
-<p> 以上表示hexo安装成功，hexo默认会被安装到C盘这个不用管</p>
-<h2 id="三，本地搭建Hexo"><a href="#三，本地搭建Hexo" class="headerlink" title="三，本地搭建Hexo"></a>三，本地搭建Hexo</h2><p>   下一步选择一个本地目录开始创建博客</p>
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image160.png" class title="This is an example image">
-<p>  输入以下命令，注意：blog是你在当前目录下进行hexo安装的文件夹，随便叫什么你自己起名，这个文件夹会自动生成。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init blog</span><br></pre></td></tr></table></figure>
-
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image120.png" class title="This is an example image">
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image170.png" class title="This is an example image">
-<p>输入完命令后我们可以看到自己刚才进入的本地目录下创建了一个“blog”文件夹，这就是hexo的本地博客文件</p>
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image50.png" class title="This is an example image">
-
-<p>此时我们继续输入下一条命令：此命令用来补充一些hexo博客的依赖</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo install</span><br></pre></td></tr></table></figure>
-
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/imageaaaa.png" class title="This is an example image">
-<p>  <strong>到此为止我们的hexo博客本地文件就准备好了</strong></p>
-<hr>
-<p> <strong>下一步我们开启hexo本地服务,启动服务器</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br><span class="line">#或者可以简写为</span><br><span class="line">$ hexo s</span><br></pre></td></tr></table></figure>
-
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/imagebbb.png" class title="This is an example image">
-<p> <strong>hexo服务默认开放4000端口，现在快打开浏览器访问<a href="http://localhost:4000/">http://localhost:4000</a>就可以看到你的博客啦！</strong></p>
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/adfsda.png" class title="This is an example image">
-
-<p> 是不是感觉w<em>c</em>  ，w<strong>f</strong>k ！ 好神奇啊，啊哈哈哈哈！</p>
-<h2 id="四，GitHub部署Hexo"><a href="#四，GitHub部署Hexo" class="headerlink" title="四，GitHub部署Hexo"></a>四，GitHub部署Hexo</h2><p> 既然在github上部署博客，首先你的有一个自己的github账号</p>
-<p>   github官网: <a href="https://github.com/">https://github.com/</a></p>
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image350.png" class title="This is an example image">
-
-<p>   正常注册即可，然后在这里点击新建一个仓库.</p>
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image270.png" class title="This is an example image">
-
-<p> 这里注意，仓库名格式一定要为   <strong>你的用户名.github.io  （注意是注册时的用户名而不是昵称）</strong>    这里非常重要，例如注册用户名为：xiaoming ，那仓库名一定要设置为  xiaoming.github.io  ，接着点击Create Repository</p>
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image190.png" class title="This is an example image">
-
-<hr>
-<pre><code>接着我们回到命令行，输入以下命令，在git终端分别配置自己的用户名和邮箱。命令如下:</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name XXX   # XXX表示你github注册时的用户名</span><br><span class="line">git config --global user.email XXX  # XXX表示你github注册时的邮箱</span><br></pre></td></tr></table></figure>
-
-<pre><code>接着输入以下命令生成密钥：</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ssh-keygen -t rsa -C &quot;Github上你注册的邮箱地址&quot;</span><br></pre></td></tr></table></figure>
-
-<p>冒号后边就输入空格，y/n 输入y </p>
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image200.png" class title="This is an example image">
-<p> 接着我们在该目录下能找到id_rsa.pub,这里存储的就是我们的密钥，打开复制所有内容</p>
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image330.png" class title="This is an example image">
-
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image280.png" class title="This is an example image">
-<p>然后我们回到GitHub 点击Setting  —&gt; SSH and GPG keys  —&gt; New SSHkey</p>
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image340.png" class title="This is an example image">
-
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/sfgsrhsfghs.png" class title="This is an example image">
-
-<p>  将密钥复制到文本框内 ，保存 ， Tittle随便起。</p>
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image13.png" class title="This is an example image">
-
-<p> 接着到了很关键的一步是我们要到刚才本地部署博客文件根目录下去修改一下<strong>_config.yml</strong>配置文件:</p>
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/zdfgsdfg.png" class title="This is an example image">
-
-<p>  我用的编辑器是VScode ，其他的都可以，不影响，打开后我们会看到密密麻麻的配置信息，不用慌，我们只需要在配置信息的最下方改成如下配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: &#39;git&#39;</span><br><span class="line">  repo: https:&#x2F;&#x2F;github.com&#x2F;yourname&#x2F;yourname.github.io.git</span><br><span class="line">  branch: master</span><br><span class="line"></span><br><span class="line">#需要注意的是：</span><br><span class="line">#1、冒号后面一定要有一个空格</span><br><span class="line">#2、type，repository，branch的首字母要对齐</span><br></pre></td></tr></table></figure>
-
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/sfdhgsdfg256.png" class title="This is an example image">
-
-<p>   至于仓库地址怎么找，如果不会我再多啰嗦一下，会的就跳过吧</p>
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image40.png" class title="This is an example image">
-
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/sadfgqertq3rgvdfg.png" class title="This is an example image">
-
-<p> 复制地址，注意选HTTP地址 或者SSH地址都可以</p>
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image23.png" class title="This is an example image">
-
-<p>   最后我们开始部署输入以下命令行：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#要安装一个部署插件hexo-deployer-git。</span><br><span class="line">npm install hexo-deployer-git --save</span><br><span class="line"></span><br><span class="line">#生成静态文件g 是 generate 缩写</span><br><span class="line">hexo g</span><br><span class="line"></span><br><span class="line">#部署，d 是 deploy 缩写：</span><br><span class="line">hexo d</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#或者将二、三句结合为</span><br><span class="line">hexo g -d</span><br></pre></td></tr></table></figure>
-
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image30.png" class title="This is an example image">
-
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image22.png" class title="This is an example image">
-
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/1234567.png" class title="This is an example image">
-<p> 第一次部署需要输入github用户名和密码</p>
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image15.png" class title="This is an example image">
-
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image24.png" class title="This is an example image">
-
-<p> 此时我们可以看到在我们的仓库中多出了很多文件</p>
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image3.png" class title="This is an example image">
-
-<p>   以上过程证明我们在GitHub部署成功，我们直接何以通过github地址访问了</p>
-<p>​         <a href="https://1819597376.github.io/">https://1819597376.github.io/</a></p>
-<p>​         到此你就拥有你自己的个人网络博客了，兴奋吗铁子？</p>
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/sdfgadssdg.png" class title="This is an example image">
-
-<h1 id="五，绑定域名"><a href="#五，绑定域名" class="headerlink" title="五，绑定域名"></a>五，绑定域名</h1><h2 id="1，购买域名"><a href="#1，购买域名" class="headerlink" title="1，购买域名"></a>1，购买域名</h2><p>​     首先你需要拥有自己的域名，这里先把域名做一下解释</p>
-<p>​         <strong>域名</strong>（英语：<strong>Domain Name</strong>），又称<strong>网域</strong>，是由一串用点分隔的名字组成的<a href="https://baike.baidu.com/item/Internet">Internet</a>上某一台<a href="https://baike.baidu.com/item/计算机/140338">计算机</a>或计算机组的名称，用于在数据传输时对计算机的定位标识（有时也指地理位置）。由于<a href="https://baike.baidu.com/item/IP地址/150859">IP地址</a>具有不方便记忆并且不能显示地址组织的名称和性质等缺点，人们设计出了域名，并通过网域名称系统（<a href="https://baike.baidu.com/item/DNS">DNS</a>，Domain Name System）来将域名和<a href="https://baike.baidu.com/item/IP地址">IP地址</a>相互<a href="https://baike.baidu.com/item/映射/20402621">映射</a>，使人更方便地访问<a href="https://baike.baidu.com/item/互联网/199186">互联网</a>，而不用去记住能够被机器直接读取的<a href="https://baike.baidu.com/item/IP地址">IP地址</a>数串。 </p>
-<p>​        简单多就是因为github的地址太长或服务器的公网IP全数字不好记，我们需要一个好记的地址也就这我们的需要的域名来与自己的github仓库地址来做一个捆绑，通过这个好记的域名来访问我们的网站或者博客，比如我们要访问百度时在浏览器地址栏直接搜做 <a href="http://baidu.com">baidu.com</a> 就可访问百度网页而不是输入长长的IP地址。这种绑定关系会存储在DNS中，即域名系统（服务）协议。</p>
-<p>​        这也是我们要做域名绑定的目的，购买就不多赘述，因为我的域名是<strong><a href="https://www.aliyun.com/">阿里云</a></strong>购买，这里我仅以阿里云平台的域名进行介绍，如果想买其他平台的域名也可以，我们的操作流程大同小异，不会就看下面这个购买教程</p>
-<p>域名购买教程 : <a href="https://www.jianshu.com/p/e11a136ebd02">https://www.jianshu.com/p/e11a136ebd02</a></p>
-<h3 id="2，域名解析"><a href="#2，域名解析" class="headerlink" title="2，域名解析"></a>2，域名解析</h3><p>​         拥有域名后，我要对域名进行解析操作来实现域名和我们仓库地址的绑定。</p>
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image1.png" class title="This is an example image">
-
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image26.png" class title="This is an example image">
-
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image4.png" class title="This is an example image">
-
-<p>​    我们要添加两条记录</p>
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image9.png" class title="This is an example image">
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image38.png" class title="This is an example image">
-<p>​    保存后得到这两条记录即可：</p>
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image11.png" class title="This is an example image">
-
-<p>接下来回到github仓库，创建一个名为CNAME的文件，内容为你的域名：</p>
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image14.png" class title="This is an example image">
-
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image8.png" class title="This is an example image">
-
-<p>​              就在此刻奇迹发生了</p>
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/356356.png" class title="This is an example image">
-
-<p> 就这样了，完美结束，写的我好累啊哈哈哈，感谢使用此教程，也为你成功搭建Hexo博客而感到高兴！</p>
-<p>​             <strong>我的博客：  <a href> trouble.com</a></strong></p>
-<img src="/2020/03/10/%E8%B6%85%E7%BA%A7%E8%AF%A6%E7%BB%86Hexo-GitHub-%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/image37.png" class title="This is an example image">
-
-<h1 id="最后寄语"><a href="#最后寄语" class="headerlink" title="最后寄语"></a><strong>最后寄语</strong></h1><p>​                                               <strong>没有人天生什么都会</strong></p>
-<p>​                                               <strong>不说所有人都是天才</strong></p>
-<p>​                                                     <strong>如果你不是</strong></p>
-<p>​                                          <strong>就请停止幻想  脚踏实地吧</strong></p>
-<p>​                                     <strong>学 IT就不要害怕犯错  错误越多越好</strong></p>
-<p>​                                                            <strong>再见</strong></p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-03-10T15:28:33.000Z">2020-03-10</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    a few seconds read (About 8 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2020/03/10/node.js&Git/">test2</a>
-            
-        </h1>
-        <div class="content">
-            <img src="/2020/03/10/node.js&Git/666.png" class title="This is an example image">
-
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-03-01T14:53:04.911Z">2020-03-01</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    a minute read (About 134 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2020/03/01/hello-world/">Hello World</a>
-            
-        </h1>
-        <div class="content">
-            <p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h2 id="二级标题测试"><a href="#二级标题测试" class="headerlink" title="二级标题测试"></a>二级标题测试</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-<p><img src="teaching(hexo+github" alt="">/image (6).png)</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
 
 
 </div>
@@ -1449,7 +859,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo1.jpg" alt="TroubleQ" height="28">
+                    <img src="/images/logo1.jpg" alt="ArrayList源码分析-面试必会" height="28">
                 
                 </a>
                 <p class="is-size-7">
