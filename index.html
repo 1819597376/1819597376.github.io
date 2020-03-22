@@ -140,7 +140,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    3 minutes read (About 446 words)
+                    2 minutes read (About 269 words)
                 </span>
                 
                 
@@ -155,22 +155,42 @@
         <div class="content">
             <p><strong>重新启动IDEA  maven项目SSM框架所有@注解失效，每个文件上都有个小黄圆，而且我发现所有构建项目的maven的jar包都不在了，也就是说此时根本就不是一个maven项目了，这是IDEA的一个很烦人的bug，网上有很多解决的办法，我是这样解决的：</strong></p>
 <p>Build   -&gt;  Rebuild   Project   将项目进行重构</p>
-<p><img src="/2020/03/22/%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8IDEA%E6%97%B6maven%E9%A1%B9%E7%9B%AESSM%E6%A1%86%E6%9E%B6%E6%96%87%E4%BB%B6%E5%8F%98%E8%89%B2%E6%89%80%E6%9C%89@%E6%B3%A8%E8%A7%A3%E5%A4%B1%E6%95%88/F:%5Cdevsoft%5CHexo-blog%5Cfirstblog%5Csource_posts%5C%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8IDEA%E6%97%B6maven%E9%A1%B9%E7%9B%AESSM%E6%A1%86%E6%9E%B6%E6%96%87%E4%BB%B6%E5%8F%98%E8%89%B2%E6%89%80%E6%9C%89@%E6%B3%A8%E8%A7%A3%E5%A4%B1%E6%95%88%5C5.png" alt></p>
+<img src="/2020/03/22/%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8IDEA%E6%97%B6maven%E9%A1%B9%E7%9B%AESSM%E6%A1%86%E6%9E%B6%E6%96%87%E4%BB%B6%E5%8F%98%E8%89%B2%E6%89%80%E6%9C%89@%E6%B3%A8%E8%A7%A3%E5%A4%B1%E6%95%88/5.png" class title="This is an example image">
+
+
+
 <p>此时你会发现maven  jar包重新导入进来</p>
-<p><img src="/2020/03/22/%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8IDEA%E6%97%B6maven%E9%A1%B9%E7%9B%AESSM%E6%A1%86%E6%9E%B6%E6%96%87%E4%BB%B6%E5%8F%98%E8%89%B2%E6%89%80%E6%9C%89@%E6%B3%A8%E8%A7%A3%E5%A4%B1%E6%95%88/F:%5Cdevsoft%5CHexo-blog%5Cfirstblog%5Csource_posts%5C%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8IDEA%E6%97%B6maven%E9%A1%B9%E7%9B%AESSM%E6%A1%86%E6%9E%B6%E6%96%87%E4%BB%B6%E5%8F%98%E8%89%B2%E6%89%80%E6%9C%89@%E6%B3%A8%E8%A7%A3%E5%A4%B1%E6%95%88%5C7.png" alt></p>
+<img src="/2020/03/22/%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8IDEA%E6%97%B6maven%E9%A1%B9%E7%9B%AESSM%E6%A1%86%E6%9E%B6%E6%96%87%E4%BB%B6%E5%8F%98%E8%89%B2%E6%89%80%E6%9C%89@%E6%B3%A8%E8%A7%A3%E5%A4%B1%E6%95%88/7.png" class title="This is an example image">
+
+
+
 <p>而文件异常是因为之前的文件标记消失了，重新标记</p>
-<p><img src="/2020/03/22/%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8IDEA%E6%97%B6maven%E9%A1%B9%E7%9B%AESSM%E6%A1%86%E6%9E%B6%E6%96%87%E4%BB%B6%E5%8F%98%E8%89%B2%E6%89%80%E6%9C%89@%E6%B3%A8%E8%A7%A3%E5%A4%B1%E6%95%88/F:%5Cdevsoft%5CHexo-blog%5Cfirstblog%5Csource_posts%5C%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8IDEA%E6%97%B6maven%E9%A1%B9%E7%9B%AESSM%E6%A1%86%E6%9E%B6%E6%96%87%E4%BB%B6%E5%8F%98%E8%89%B2%E6%89%80%E6%9C%89@%E6%B3%A8%E8%A7%A3%E5%A4%B1%E6%95%88%5C2.png" alt></p>
+<img src="/2020/03/22/%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8IDEA%E6%97%B6maven%E9%A1%B9%E7%9B%AESSM%E6%A1%86%E6%9E%B6%E6%96%87%E4%BB%B6%E5%8F%98%E8%89%B2%E6%89%80%E6%9C%89@%E6%B3%A8%E8%A7%A3%E5%A4%B1%E6%95%88/2.png" class title="This is an example image">
+
+
+
 <p>因为我这是SSM框架所以三个文件夹需要标记</p>
-<p><img src="/2020/03/22/%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8IDEA%E6%97%B6maven%E9%A1%B9%E7%9B%AESSM%E6%A1%86%E6%9E%B6%E6%96%87%E4%BB%B6%E5%8F%98%E8%89%B2%E6%89%80%E6%9C%89@%E6%B3%A8%E8%A7%A3%E5%A4%B1%E6%95%88/F:%5Cdevsoft%5CHexo-blog%5Cfirstblog%5Csource_posts%5C%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8IDEA%E6%97%B6maven%E9%A1%B9%E7%9B%AESSM%E6%A1%86%E6%9E%B6%E6%96%87%E4%BB%B6%E5%8F%98%E8%89%B2%E6%89%80%E6%9C%89@%E6%B3%A8%E8%A7%A3%E5%A4%B1%E6%95%88%5C4.png" alt></p>
+<img src="/2020/03/22/%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8IDEA%E6%97%B6maven%E9%A1%B9%E7%9B%AESSM%E6%A1%86%E6%9E%B6%E6%96%87%E4%BB%B6%E5%8F%98%E8%89%B2%E6%89%80%E6%9C%89@%E6%B3%A8%E8%A7%A3%E5%A4%B1%E6%95%88/4.png" class title="This is an example image">
+
 <p>右键各个文件  Mark  Directory  as   -&gt;</p>
 <p><strong>main.java      —— Sources Root</strong></p>
 <p><strong>mian.resource  —–Resources Root</strong></p>
 <p><strong>test.java     —— Test  Sources Root</strong></p>
-<p><img src="/2020/03/22/%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8IDEA%E6%97%B6maven%E9%A1%B9%E7%9B%AESSM%E6%A1%86%E6%9E%B6%E6%96%87%E4%BB%B6%E5%8F%98%E8%89%B2%E6%89%80%E6%9C%89@%E6%B3%A8%E8%A7%A3%E5%A4%B1%E6%95%88/F:%5Cdevsoft%5CHexo-blog%5Cfirstblog%5Csource_posts%5C%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8IDEA%E6%97%B6maven%E9%A1%B9%E7%9B%AESSM%E6%A1%86%E6%9E%B6%E6%96%87%E4%BB%B6%E5%8F%98%E8%89%B2%E6%89%80%E6%9C%89@%E6%B3%A8%E8%A7%A3%E5%A4%B1%E6%95%88%5C3.png" alt></p>
-<p><img src="/2020/03/22/%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8IDEA%E6%97%B6maven%E9%A1%B9%E7%9B%AESSM%E6%A1%86%E6%9E%B6%E6%96%87%E4%BB%B6%E5%8F%98%E8%89%B2%E6%89%80%E6%9C%89@%E6%B3%A8%E8%A7%A3%E5%A4%B1%E6%95%88/F:%5Cdevsoft%5CHexo-blog%5Cfirstblog%5Csource_posts%5C%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8IDEA%E6%97%B6maven%E9%A1%B9%E7%9B%AESSM%E6%A1%86%E6%9E%B6%E6%96%87%E4%BB%B6%E5%8F%98%E8%89%B2%E6%89%80%E6%9C%89@%E6%B3%A8%E8%A7%A3%E5%A4%B1%E6%95%88%5C8.png" alt="zxc  (8)"></p>
-<p> <img src="/2020/03/22/%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8IDEA%E6%97%B6maven%E9%A1%B9%E7%9B%AESSM%E6%A1%86%E6%9E%B6%E6%96%87%E4%BB%B6%E5%8F%98%E8%89%B2%E6%89%80%E6%9C%89@%E6%B3%A8%E8%A7%A3%E5%A4%B1%E6%95%88/F:%5Cdevsoft%5CHexo-blog%5Cfirstblog%5Csource_posts%5C%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8IDEA%E6%97%B6maven%E9%A1%B9%E7%9B%AESSM%E6%A1%86%E6%9E%B6%E6%96%87%E4%BB%B6%E5%8F%98%E8%89%B2%E6%89%80%E6%9C%89@%E6%B3%A8%E8%A7%A3%E5%A4%B1%E6%95%88%5C6.png" alt></p>
+<img src="/2020/03/22/%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8IDEA%E6%97%B6maven%E9%A1%B9%E7%9B%AESSM%E6%A1%86%E6%9E%B6%E6%96%87%E4%BB%B6%E5%8F%98%E8%89%B2%E6%89%80%E6%9C%89@%E6%B3%A8%E8%A7%A3%E5%A4%B1%E6%95%88/3.png" class title="This is an example image">
+
+
+
+<img src="/2020/03/22/%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8IDEA%E6%97%B6maven%E9%A1%B9%E7%9B%AESSM%E6%A1%86%E6%9E%B6%E6%96%87%E4%BB%B6%E5%8F%98%E8%89%B2%E6%89%80%E6%9C%89@%E6%B3%A8%E8%A7%A3%E5%A4%B1%E6%95%88/8.png" class title="This is an example image">
+
+
+
+ <img src="/2020/03/22/%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8IDEA%E6%97%B6maven%E9%A1%B9%E7%9B%AESSM%E6%A1%86%E6%9E%B6%E6%96%87%E4%BB%B6%E5%8F%98%E8%89%B2%E6%89%80%E6%9C%89@%E6%B3%A8%E8%A7%A3%E5%A4%B1%E6%95%88/6.png" class title="This is an example image">!
+
 <p>恢复正常</p>
-<p><img src="/2020/03/22/%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8IDEA%E6%97%B6maven%E9%A1%B9%E7%9B%AESSM%E6%A1%86%E6%9E%B6%E6%96%87%E4%BB%B6%E5%8F%98%E8%89%B2%E6%89%80%E6%9C%89@%E6%B3%A8%E8%A7%A3%E5%A4%B1%E6%95%88/F:%5Cdevsoft%5CHexo-blog%5Cfirstblog%5Csource_posts%5C%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8IDEA%E6%97%B6maven%E9%A1%B9%E7%9B%AESSM%E6%A1%86%E6%9E%B6%E6%96%87%E4%BB%B6%E5%8F%98%E8%89%B2%E6%89%80%E6%9C%89@%E6%B3%A8%E8%A7%A3%E5%A4%B1%E6%95%88%5C1.png" alt></p>
+<img src="/2020/03/22/%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8IDEA%E6%97%B6maven%E9%A1%B9%E7%9B%AESSM%E6%A1%86%E6%9E%B6%E6%96%87%E4%BB%B6%E5%8F%98%E8%89%B2%E6%89%80%E6%9C%89@%E6%B3%A8%E8%A7%A3%E5%A4%B1%E6%95%88/1.png" class title="This is an example image">
+
+
+
 <p>结束，这个办法相当有效！</p>
 
         </div>
