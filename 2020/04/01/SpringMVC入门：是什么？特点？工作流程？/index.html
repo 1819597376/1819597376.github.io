@@ -8,19 +8,19 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>简单说一下java跨平台 - TroubleQ</title>
+<title>SpringMVC入门：是什么？特点？工作流程？ - TroubleQ</title>
 
 
-    <meta name="description" content="​        简单理解：跨平台故名思意，其不受各种平台的限制，在多种平台上都能运行，及不依赖于操作系统有不依赖于硬件环境，一种操作系统下开发的应用到另一种操作系统下任可以运行； ​        面试时应该这么说： 注意抓住关键两点术语：操作系统指令集、屏蔽系统之间的差异 ​        由于各种操作系统之间的指令集不完全相同，所以在操作系统之上加个虚拟机可以来提供统一的接口，屏蔽系统之间的">
+    <meta name="description" content="什么是SpringMVC？SpringMVC是Spring家族中提供的一个实现Web MVC设计模式的轻量级Wed框架，他与Struts2一样，都属于MVC框架（Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写，）,但是只不过Struts2是老框架，已经被淘汰了。SpringMVC主要完成C（控制器）的作用，但是器性能笔Str">
 <meta property="og:type" content="article">
-<meta property="og:title" content="简单说一下java跨平台">
-<meta property="og:url" content="http://yoursite.com/2020/03/14/%E7%AE%80%E5%8D%95%E8%AF%B4%E4%B8%80%E4%B8%8B%E8%B7%A8%E5%B9%B3%E5%8F%B0/index.html">
+<meta property="og:title" content="SpringMVC入门：是什么？特点？工作流程？">
+<meta property="og:url" content="http://yoursite.com/2020/04/01/SpringMVC%E5%85%A5%E9%97%A8%EF%BC%9A%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E7%89%B9%E7%82%B9%EF%BC%9F%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B%EF%BC%9F/index.html">
 <meta property="og:site_name" content="TroubleQ">
-<meta property="og:description" content="​        简单理解：跨平台故名思意，其不受各种平台的限制，在多种平台上都能运行，及不依赖于操作系统有不依赖于硬件环境，一种操作系统下开发的应用到另一种操作系统下任可以运行； ​        面试时应该这么说： 注意抓住关键两点术语：操作系统指令集、屏蔽系统之间的差异 ​        由于各种操作系统之间的指令集不完全相同，所以在操作系统之上加个虚拟机可以来提供统一的接口，屏蔽系统之间的">
+<meta property="og:description" content="什么是SpringMVC？SpringMVC是Spring家族中提供的一个实现Web MVC设计模式的轻量级Wed框架，他与Struts2一样，都属于MVC框架（Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写，）,但是只不过Struts2是老框架，已经被淘汰了。SpringMVC主要完成C（控制器）的作用，但是器性能笔Str">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
-<meta property="article:published_time" content="2020-03-14T10:18:38.000Z">
-<meta property="article:modified_time" content="2020-03-14T10:28:19.225Z">
+<meta property="article:published_time" content="2020-04-01T03:23:00.000Z">
+<meta property="article:modified_time" content="2020-04-01T04:39:54.580Z">
 <meta property="article:author" content="TroubleQ">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
@@ -81,7 +81,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo1.jpg" alt="简单说一下java跨平台" height="28">
+                <img src="/images/logo1.jpg" alt="SpringMVC入门：是什么？特点？工作流程？" height="28">
             
             </a>
         </div>
@@ -137,13 +137,13 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-03-14T10:18:38.000Z">2020-03-14</time>
+                <time class="level-item has-text-grey" datetime="2020-04-01T03:23:00.000Z">2020-04-01</time>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    a minute read (About 176 words)
+                    4 minutes read (About 667 words)
                 </span>
                 
                 
@@ -152,15 +152,39 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                简单说一下java跨平台
+                SpringMVC入门：是什么？特点？工作流程？
             
         </h1>
         <div class="content">
-            <p>​        <strong>简单理解</strong>：跨平台故名思意，其不受各种平台的限制，在多种平台上都能运行，及不依赖于操作系统有不依赖于硬件环境，一种操作系统下开发的应用到另一种操作系统下任可以运行；</p>
-<p>​        <strong>面试时应该这么说</strong>：</p>
-<p>注意抓住关键两点术语：<strong>操作系统指令集、屏蔽系统之间的差异</strong></p>
-<p>​        由于各种操作系统之间的<strong>指令集不完全相同</strong>，所以在操作系统之上加个虚拟机可以来<strong>提供统一的接口</strong>，<strong>屏蔽系统之间的差异。</strong></p>
+            <h1 id="什么是SpringMVC？"><a href="#什么是SpringMVC？" class="headerlink" title="什么是SpringMVC？"></a>什么是SpringMVC？</h1><p>SpringMVC是Spring家族中提供的一个实现Web MVC设计模式的轻量级Wed框架，他与Struts2一样，都属于MVC框架<strong>（Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写，）</strong>,但是只不过Struts2是老框架，已经被淘汰了。SpringMVC主要完成C（控制器）的作用，但是器性能笔Strust2好很多。</p>
+<p><strong>作用：</strong>从请求中接受传入的参数；将底层传回的参数结果返回前台页面进行展示。</p>
+<h1 id="SpringMVC具有什么特点？"><a href="#SpringMVC具有什么特点？" class="headerlink" title="SpringMVC具有什么特点？"></a>SpringMVC具有什么特点？</h1><ul>
+<li><strong>是Spring框架的一部分</strong>，可以方便的使用Spring框架的其他功能</li>
+<li>灵活性好，<strong>易于与其他框架集成</strong></li>
+<li><strong>提供了一个前端控制器DispatcherServlet</strong>，使开发人员更加方便，无需自己开发前端控制器对象</li>
+<li>可以<strong>自动的绑定用户输入，可以正确的进行数据类型转换</strong></li>
+<li>内置了常见的<strong>校验器</strong>，可以校验用户输入，如果输入不正确会自动<strong>重定向到输入表单</strong></li>
+<li><strong>支持国家化可以根据用户位置显示多国语言</strong></li>
+<li>支持多种试图技术，它支持jsp，Velocity和FreeMark的视图技术</li>
+<li>使用基于xml配置文件，在编译后，<strong>不需要重新编译程序</strong></li>
+</ul>
+<h1 id="SpringMVC的工作流程？"><a href="#SpringMVC的工作流程？" class="headerlink" title="SpringMVC的工作流程？"></a>SpringMVC的工作流程？</h1><img src="/2020/04/01/SpringMVC%E5%85%A5%E9%97%A8%EF%BC%9A%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E7%89%B9%E7%82%B9%EF%BC%9F%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B%EF%BC%9F/a.jpg" class title="This is an example image">
 
+<ol>
+<li>通过浏览器向服务器发送请求，请求会被SpringMVC的<strong>前端控制器DispacherServlet</strong>拦截</li>
+<li>DispacherServlet拦截请求后会调用HanderMapping处理器映射器</li>
+<li>处理器映射器会根据请求URL找到具体的处理器，生成处理器对象几处理器拦截器（如果有则生成）一并返回给DipacherServlet；</li>
+<li>DispacherServlet会根据返回的信息选择合适的HanderAdapter（处理器适配器）</li>
+<li>HanderAdapter会调用执行<strong>Hander（处理器）</strong>，这里的处理器指得就是程序中编写的Controller类，也被称之为<strong>后端控制器</strong></li>
+<li>Controller执行完后会返回一个ModelAndView对象，该对象中包含视图名或包含模型和视图名</li>
+<li>HandlerAdapter将ModleAndView对象返回给DispatcherServlet</li>
+<li>DispacherServlet会根据ModleAndView选择一个合适的ViewReslover（视图解析器）</li>
+<li>ViewReslover解析后，会向DispatcherServlet中返回具体的View（视图）;</li>
+<li>DispatcherServlet对View进行渲染（即将模型数据填充至视图中）;</li>
+<li>视图渲染结果会返回给客户端浏览器显示。</li>
+</ol>
+<p><strong>工作流程简易版：</strong></p>
+<img src="/2020/04/01/SpringMVC%E5%85%A5%E9%97%A8%EF%BC%9A%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E7%89%B9%E7%82%B9%EF%BC%9F%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B%EF%BC%9F/b.jpg" class title="This is an example image">
         </div>
         
         
@@ -217,17 +241,10 @@
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
         
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/03/14/java%E7%9A%848%E7%A7%8D%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
-                <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">java的8种数据类型</span>
-            </a>
-        </div>
-        
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2020/03/13/%E4%B8%80%E4%B8%AA%E2%80%9C-java%E2%80%9D%E6%96%87%E4%BB%B6%E4%B8%AD%E6%98%AF%E5%90%A6%E5%8F%AF%E4%BB%A5%E5%8C%85%E5%90%AB%E5%A4%9A%E4%B8%AA%E7%B1%BB%EF%BC%88%E8%BF%99%E9%87%8C%E4%B8%8D%E5%86%85%E9%83%A8%E7%B1%BB%E4%B8%8D%E7%AE%97%EF%BC%89%EF%BC%8C%E6%9C%89%E4%BB%80%E4%B9%88%E9%99%90%E5%88%B6%EF%BC%9F/">
-                <span class="level-item">一个“.java”文件中是否可以包含多个类（这里不内部类不算），有什么限制？</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/03/22/%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8IDEA%E6%97%B6maven%E9%A1%B9%E7%9B%AESSM%E6%A1%86%E6%9E%B6%E6%96%87%E4%BB%B6%E5%8F%98%E8%89%B2%E6%89%80%E6%9C%89@%E6%B3%A8%E8%A7%A3%E5%A4%B1%E6%95%88/">
+                <span class="level-item">重新启动IDEA时maven项目SSM框架文件变色所有@注解失效</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -745,7 +762,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo1.jpg" alt="简单说一下java跨平台" height="28">
+                    <img src="/images/logo1.jpg" alt="SpringMVC入门：是什么？特点？工作流程？" height="28">
                 
                 </a>
                 <p class="is-size-7">
